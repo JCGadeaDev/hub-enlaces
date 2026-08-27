@@ -1,5 +1,15 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
+import icon from 'astro-icon';
+
+// Único valor a cambiar cuando compres el dominio.
+const SITE = process.env.SITE_URL ?? 'https://hub-enlaces.pages.dev';
 
 // https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  site: SITE,
+  trailingSlash: 'never',
+  integrations: [icon(), sitemap()],
+  build: {inlineStylesheets: 'always'},
+});

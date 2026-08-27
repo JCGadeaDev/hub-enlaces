@@ -1,0 +1,292 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Enlace } from '../data/enlaces';
+
+type Props = Enlace & { indice: number };
+
+const { titulo, descripcion, host, icono, tono, indice } = Astro.props;
+const activo = Astro.props.estado === 'activo';
+---
+
+<article
+  class:list={['tarjeta', { inactiva: !activo }]}
+  style={`--retraso: ${indice * 70}ms; --tono: var(--${tono});`}
+>
+  <span class="icono" aria-hidden="true">
+    <Icon name={icono} width={22} height={22} />
+  </span>
+
+  <div class="centro">
+    <h3>
+      {
+        activo ? (
+          <a class="enlace" href={Astro.props.url} rel="me noopener" target="_blank">
+            {titulo}
+          </a>
+        ) : (
+          titulo
+        )
+      }
+    </h3>
+    <p>{descripcion}</p>
+    <span class="estado">
+      <span class="punto" aria-hidden="true"></span>
+      {activo ? host : 'En construcción'}
+    </span>
+  </div>
+
+  {
+    activo && (
+      <button
+        class="compartir"
+        type="button"
+        data-url={Astro.props.url}
+        data-titulo={titulo}
+        aria-label={`Compartir ${titulo}`}
+      >
+        <Icon name="lucide:share-2" width={17} height={17} />
+        <span class="aviso" role="status" />
+      </button>
+    )
+  }
+</article>
+
+<style>
+  .tarjeta {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background:
+      radial-gradient(
+        120% 150% at 0% 0%,
+        color-mix(in srgb, var(--tono) 20%, transparent),
+        transparent 62%
+      ),
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--tono) 8%, var(--surface)),
+        var(--surface) 58%,
+        color-mix(in srgb, var(--accent-3) 7%, var(--surface))
+      );
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    animation: entrada 0.5s ease both;
+    animation-delay: var(--retraso);
+  }
+
+  .tarjeta::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--tono), color-mix(in srgb, var(--tono) 50%, var(--accent-3)));
+    transition: width 0.18s ease;
+  }
+
+  .tarjeta:not(.inactiva):hover,
+  .tarjeta:focus-within {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--tono) 50%, var(--rule));
+    box-shadow: 0 10px 30px -16px color-mix(in srgb, var(--tono) 90%, transparent);
+  }
+
+  .tarjeta:not(.inactiva):hover::before,
+  .tarjeta:focus-within::before {
+    width: 6px;
+  }
+
+  .inactiva {
+    opacity: 0.85;
+  }
+
+  .inactiva::before {
+    background: linear-gradient(
+      180deg,
+      var(--construccion),
+      color-mix(in srgb, var(--construccion) 40%, transparent)
+    );
+  }
+
+  .icono {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background: linear-gradient(140deg, var(--tono), color-mix(in srgb, var(--tono) 45%, var(--accent-3)));
+    box-shadow: 0 4px 14px -6px color-mix(in srgb, var(--tono) 75%, transparent);
+    color: #fff;
+  }
+
+  .inactiva .icono {
+    background: linear-gradient(
+      140deg,
+      var(--construccion),
+      color-mix(in srgb, var(--construccion) 55%, var(--tono))
+    );
+    color: #fff;
+  }
+
+  .centro {
+    text-align: center;
+    min-width: 0;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .enlace {
+    text-decoration: none;
+  }
+
+  .enlace::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+  }
+
+  p {
+    margin: 3px 0 5px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+
+  .estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--activo);
+  }
+
+  .inactiva .estado {
+    color: var(--construccion);
+    text-transform: uppercase;
+  }
+
+  .punto {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  .compartir {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: none;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  }
+
+  .compartir:hover,
+  .compartir:focus-visible {
+    color: var(--accent-2);
+    border-color: color-mix(in srgb, var(--accent-2) 35%, transparent);
+    background: color-mix(in srgb, var(--accent-2) 8%, transparent);
+  }
+
+  .aviso {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 6px);
+    padding: 3px 7px;
+    border-radius: 6px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 10px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .compartir.copiado .aviso {
+    opacity: 1;
+  }
+
+  @keyframes entrada {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tarjeta,
+    .tarjeta::before,
+    .compartir {
+      animation: none;
+      transition: none;
+    }
+    .tarjeta:not(.inactiva):hover {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .tarjeta {
+      gap: 11px;
+      padding: 12px 13px;
+    }
+    .icono {
+      width: 40px;
+      height: 40px;
+    }
+    p {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.compartir').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const url = btn.dataset.url!;
+      const titulo = btn.dataset.titulo!;
+      const aviso = btn.querySelector('.aviso')!;
+
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: titulo, url });
+        } else {
+          await navigator.clipboard.writeText(url);
+          aviso.textContent = 'Enlace copiado';
+          btn.classList.add('copiado');
+          setTimeout(() => btn.classList.remove('copiado'), 1600);
+        }
+      } catch {
+        // El usuario cerró el diálogo del sistema: no es un error.
+      }
+    });
+  });
+</script>

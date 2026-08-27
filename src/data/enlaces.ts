@@ -50,7 +50,7 @@ export const blogs = [
         titulo: 'Blog de tecnología y datos',
         descripcion:
             'Arquitectura, ingeniería de datos, desarrollo de software, artículos, novedades y notas de campo sobre proyectos en producción.',
-        host: 'próximamente',
+        host: 'tech.jcgadeadev.com',
         estado: 'construccion',
         icono: 'lucide:terminal',
         tono: 'accent', 
@@ -58,7 +58,7 @@ export const blogs = [
     {
         titulo: 'Blog de cine y entretenimiento',
         descripcion: 'Reseñas, ensayos y apuntes de lo que veo dentro y fuera de la sala.',
-        host: 'próximamente',
+        host: 'fotograma.jcgadeadev.com',
         estado: 'construccion',
         icono: 'lucide:clapperboard',
         tono: 'accent-3'      

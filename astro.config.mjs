@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
 
 // Único valor a cambiar cuando compres el dominio.
-const SITE = process.env.SITE_URL ?? 'https://hub-enlaces.jcgambeta89.workers.dev';
+const SITE = process.env.SITE_URL ?? 'https://jcgadeadev.com';
 
 // https://astro.build/config
 export default defineConfig({

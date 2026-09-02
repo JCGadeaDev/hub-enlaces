@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hub-enlaces.jcgambeta89.workers.dev/sitemap-index.xml
+Sitemap: https://jcgadeadev.com/sitemap-index.xml

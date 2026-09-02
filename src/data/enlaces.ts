@@ -13,7 +13,7 @@ export type Enlace =
 
 export const perfil = {
     nombre: ' Juan Carlos Gadea Brenes',
-    rol: 'Full Stack Developer, Data Engineer & Cloud Engineer | Solutions Architect | Technical Lead',
+    rol: 'Data Engineer | Full Stack Developer | Solutions Architect | Technical Lead & Cloud Engineer',
     especialidad: 'Data Analyst · Cloud · Full-Stack Developer',
     ubicacion: 'Roma, IT',
     disponibilidad: 'Remoto · LATAM · ES · EU',
